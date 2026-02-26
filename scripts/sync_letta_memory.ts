@@ -37,6 +37,7 @@ import {
   formatAllBlocksForStdout,
   cleanLettaFromClaudeMd,
   getMode,
+  getTempStateDir,
   LETTA_API_BASE,
 } from './conversation_utils.js';
 
@@ -75,7 +76,7 @@ interface HookInput {
 }
 
 // Temp state directory for logs
-const TEMP_STATE_DIR = '/tmp/letta-claude-sync';
+const TEMP_STATE_DIR = getTempStateDir();
 
 /**
  * Read hook input from stdin

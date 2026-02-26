@@ -304,7 +304,7 @@ Persisted in your project directory (this is **conversation bookkeeping**, not a
 - `conversations.json` - Maps Claude Code session IDs → Letta conversation IDs
 - `session-{id}.json` - Per-session state (last processed index, cached conversation ID)
 
-### Temporary State (`/tmp/letta-claude-sync/`)
+### Temporary State (`$TMPDIR/letta-claude-sync-$UID/`)
 
 Log files for debugging:
 - `session_start.log` - Session initialization
@@ -394,15 +394,15 @@ On first use, the agent starts with minimal context. It takes a few sessions bef
 
 ## Debugging
 
-Check the log files in `/tmp/letta-claude-sync/` if hooks aren't working:
+Check the log files if hooks aren't working. The log directory is user-specific (`$TMPDIR/letta-claude-sync-$UID/`):
 
 ```bash
-# Watch all logs
-tail -f /tmp/letta-claude-sync/*.log
+# Watch all logs (macOS/Linux)
+tail -f /tmp/letta-claude-sync-$(id -u)/*.log
 
 # Or specific logs
-tail -f /tmp/letta-claude-sync/send_messages.log
-tail -f /tmp/letta-claude-sync/send_worker.log
+tail -f /tmp/letta-claude-sync-$(id -u)/send_messages.log
+tail -f /tmp/letta-claude-sync-$(id -u)/send_worker.log
 ```
 
 ## API Notes

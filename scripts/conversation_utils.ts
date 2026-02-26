@@ -4,6 +4,7 @@
  */
 
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import { spawn, ChildProcess } from 'child_process';
 import { fileURLToPath } from 'url';
@@ -46,6 +47,16 @@ export function getMode(): LettaMode {
   const mode = process.env.LETTA_MODE?.toLowerCase();
   if (mode === 'full' || mode === 'off') return mode;
   return 'whisper';
+}
+
+/**
+ * Get user-specific temp state directory for logs and payloads.
+ * Uses os.tmpdir() with a UID suffix to avoid permission conflicts
+ * when multiple users share the same machine.
+ */
+export function getTempStateDir(): string {
+  const uid = typeof process.getuid === 'function' ? process.getuid() : process.pid;
+  return path.join(os.tmpdir(), `letta-claude-sync-${uid}`);
 }
 
 // Types

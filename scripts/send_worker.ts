@@ -7,11 +7,13 @@
  */
 
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 
 const LETTA_BASE_URL = process.env.LETTA_BASE_URL || 'https://api.letta.com';
 const LETTA_API_BASE = `${LETTA_BASE_URL}/v1`;
-const LOG_FILE = '/tmp/letta-claude-sync/send_worker.log';
+const uid = typeof process.getuid === 'function' ? process.getuid() : process.pid;
+const LOG_FILE = path.join(os.tmpdir(), `letta-claude-sync-${uid}`, 'send_worker.log');
 
 interface Payload {
   apiKey: string;

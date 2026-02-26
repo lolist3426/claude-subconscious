@@ -18,7 +18,7 @@
  *   0 - Success
  *   1 - Non-blocking error
  *
- * Log file: /tmp/letta-claude-sync/session_start.log
+ * Log file: $TMPDIR/letta-claude-sync-$UID/session_start.log
  */
 
 import * as fs from 'fs';
@@ -29,12 +29,13 @@ import {
   cleanLettaFromClaudeMd,
   createConversation,
   getMode,
+  getTempStateDir,
 } from './conversation_utils.js';
 
 // Configuration
 const LETTA_BASE_URL = process.env.LETTA_BASE_URL || 'https://api.letta.com';
 const LETTA_API_BASE = `${LETTA_BASE_URL}/v1`;
-const TEMP_STATE_DIR = '/tmp/letta-claude-sync';
+const TEMP_STATE_DIR = getTempStateDir();
 const LOG_FILE = path.join(TEMP_STATE_DIR, 'session_start.log');
 
 interface HookInput {

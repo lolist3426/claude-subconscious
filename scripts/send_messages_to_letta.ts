@@ -18,7 +18,7 @@
  *   0 - Success
  *   1 - Non-blocking error
  * 
- * Log file: /tmp/letta-claude-sync/send_messages.log
+ * Log file: $TMPDIR/letta-claude-sync-$UID/send_messages.log
  */
 
 import * as fs from 'fs';
@@ -36,6 +36,7 @@ import {
   SyncState,
   LogFn,
   getMode,
+  getTempStateDir,
 } from './conversation_utils.js';
 
 // ESM-compatible __dirname
@@ -43,7 +44,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuration
-const TEMP_STATE_DIR = '/tmp/letta-claude-sync';  // Temp state (logs, etc.)
+const TEMP_STATE_DIR = getTempStateDir();
 const LOG_FILE = path.join(TEMP_STATE_DIR, 'send_messages.log');
 
 interface HookInput {
