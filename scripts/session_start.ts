@@ -255,23 +255,28 @@ async function main(): Promise<void> {
   };
 
   try {
-    // Show initial connecting message
-    writeTty('\x1b[2m'); // Dim
-    writeTty('  \u25E6 Letta Subconscious\n'); // Small circle
+    // Show initial connecting message with mascot
+    writeTty('\n');
+    writeTty('\x1b[1m  Claude Subconscious\x1b[0m\n');
+    writeTty('\n');
+    writeTty('\x1b[35m'); // Purple
+    writeTty('  ▐\x1b[31m▛\x1b[35m███\x1b[31m▜\x1b[35m▌\n');
+    writeTty(' ▝▜█████▛▘\n');
+    writeTty('   ▘▘ ▝▝\n');
     writeTty('\x1b[0m'); // Reset
+    writeTty('\x1b[2m  Connecting...\x1b[0m');
 
     // Get agent ID (from env, saved config, or auto-import)
     const agentId = await getAgentId(apiKey, log);
 
     // Fetch agent details for display
-    writeTty(`  \x1b[2m\u25CB Connecting...\x1b[0m`);
     const agent = await fetchAgent(apiKey, agentId);
     const agentName = agent.name || 'Unnamed Agent';
     const modelHandle = (agent as any).llm_config?.handle || (agent as any).llm_config?.model || 'unknown';
 
-    // Clear and show full splash
+    // Clear connecting message and show info
     writeTty('\r\x1b[K'); // Clear current line
-    writeTty('\n');
+    writeTty('\n  Agent information:\n');
     writeTty('\x1b[1m'); // Bold
     writeTty(`  ${agentName}\n`);
     writeTty('\x1b[0m'); // Reset
@@ -354,10 +359,7 @@ async function main(): Promise<void> {
     }
     log('CLAUDE.md cleanup done');
 
-    // Send session start message
-    await sendSessionStartMessage(apiKey, conversationId, hookInput.session_id, hookInput.cwd);
-
-    // Show conversation link (only for hosted Letta)
+    // Show conversation link (only for hosted Letta) - print before blocking send
     const isHosted = !process.env.LETTA_BASE_URL;
     if (isHosted) {
       const convUrl = `https://app.letta.com/agents/${agentId}?conversation=${conversationId}`;
@@ -375,8 +377,11 @@ async function main(): Promise<void> {
     writeTty('\x1b[0m'); // Reset
     writeTty('\n');
 
-    // Close TTY
+    // Close TTY before potentially slow network call
     if (tty) tty.end();
+
+    // Send session start message (may take a while, but TTY output is done)
+    await sendSessionStartMessage(apiKey, conversationId, hookInput.session_id, hookInput.cwd);
 
     log('Completed successfully');
 
