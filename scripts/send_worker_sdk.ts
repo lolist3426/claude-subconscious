@@ -61,13 +61,12 @@ async function sendViaSdk(payload: SdkPayload): Promise<boolean> {
   }
   // 'full' mode: no allowedTools restriction (all tools available)
 
-  log(`Creating SDK session for agent ${payload.agentId} (mode: ${payload.sdkToolsMode})`);
+  log(`Creating SDK session for conversation ${payload.conversationId} (mode: ${payload.sdkToolsMode})`);
+  log(`  agent: ${payload.agentId}`);
   log(`  cwd: ${payload.cwd}`);
   log(`  allowedTools: ${payload.sdkToolsMode === 'read-only' ? readOnlyTools.join(', ') : 'all'}`);
 
-  // Use agentId — the SDK creates/manages its own conversation.
-  // The Letta API conversation (payload.conversationId) is incompatible with SDK sessions.
-  const session = resumeSession(payload.agentId, sessionOptions);
+  const session = resumeSession(payload.conversationId, sessionOptions);
 
   try {
     log(`Sending message (${payload.message.length} chars)...`);
@@ -79,9 +78,14 @@ async function sendViaSdk(payload: SdkPayload): Promise<boolean> {
 
     for await (const msg of session.stream()) {
       messageCount++;
+      // Log every message type for debugging
+      const preview = (msg as any).content
+        ? String((msg as any).content).substring(0, 80)
+        : JSON.stringify(msg).substring(0, 120);
+      log(`  [${messageCount}] type=${msg.type} | ${preview}`);
+
       if (msg.type === 'assistant' && msg.content) {
         assistantResponse += msg.content;
-        log(`  Assistant chunk: ${msg.content.substring(0, 100)}...`);
       }
     }
 
